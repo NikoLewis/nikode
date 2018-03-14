@@ -1,0 +1,15 @@
+<div class="events-container">
+  <h1>Nikode</h1>
+  <h3>Currated Tech Events</h3>
+  <% @events.each do |event| %>
+  <p><%= link_to event[:title], "events/#{event[:id]}", class: "link" %></p>
+  <% end %>
+  <p><%= link_to "Add an event!", new_event_path, class: "link" %></p>
+  <p><%= link_to('Edit', "/events/#{event.id}/edit") %></p>
+    <p><%= link_to 'Delete', event, :method => 'delete' %></p>
+</div>
+
+
+
+
+
