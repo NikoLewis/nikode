@@ -11,18 +11,25 @@ import axios from 'axios';
 
 import Events from './components/events/ShowEvents';
 import PostEvent from './components/events/PostEvent';
-import UpdareEvent from './components/events/updateEvent';
+
 import NavBar from './components/NavBar';
 import Header from './Header';
 
 class App extends Component {
+  // # PATCH/PUT /events/1
   constructor(props) {
     super(props);
-    this.state = { events: 'not loaded', title: '' };
+    this.state = {
+      events: 'not loaded',
+      title: '',
+      eventEditing: false,
+      currentEventId: '',
+      currentEventName: '',
+    };
     this.allEvents = this.allEvents.bind(this);
     this.handleEventChange = this.handleEventChange.bind(this);
-
     this.handleEventSubmit = this.handleEventSubmit.bind(this);
+    this.onEventEditClick = this.onEventEditClick.bind(this);
   }
 
   allEvents() {
@@ -72,6 +79,24 @@ class App extends Component {
       });
   }
 
+  showEventEditInfo(event) {
+    // console.log('state after onEventEditClick', this.state);
+    console.log('event.target.value', event.target.value);
+    console.log('event.target.name', event.target.name);
+    console.log('eventEditing:', this.state.eventEditing);
+  }
+  onEventEditClick(event) {
+    // event.target.name = `event${event.id}`
+    event.preventDefault();
+    this.setState({
+      eventEditing: true,
+      currentEventId: event.target.value,
+      currentEventName: event.target.name,
+    });
+
+    this.showEventEditInfo(event);
+  }
+
   render() {
     return (
       <div className="App">
@@ -87,7 +112,14 @@ class App extends Component {
                 path="/nikode"
                 render={props => (
                   <div>
-                    <Events {...props} allEvents={this.state.events} />
+                    <Events
+                      {...props}
+                      allEvents={this.state.events}
+                      onEventEditClick={this.onEventEditClick}
+                      eventEditing={this.eventEditing}
+                      currentEventName={this.currentEventName}
+                      currentEventId={this.currentEventId}
+                    />
                     <PostEvent
                       {...props}
                       onEventSubmit={this.handleEventSubmit}
