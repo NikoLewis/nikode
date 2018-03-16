@@ -48,7 +48,7 @@ class App extends Component {
 
   allEvents() {
     axios
-      .get('http://localhost:3000/events')
+      .get('https://nikode-api.herokuapp.com/events')
       .then(response => {
         this.setState({ events: response.data });
         // console.log(this.state.events);
